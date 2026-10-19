@@ -70,8 +70,6 @@ No rows were removed. All fixes were made in place.
 
 The full clean CSV (~100 MB) exceeds GitHub's file size limit. It can be reproduced by downloading the source dataset and running the notebook.
 
-## Next Steps
-This project will be extended with the YouTube Data API and automation: collecting channel data directly from YouTube and cleaning it automatically with the same logic.
 ## YouTube Data API and OAuth 2.0 (youtube_api.ipynb)
 
 The same cleaning logic, now with data collected directly from YouTube. Tested on a small test channel and checked against YouTube Studio.

@@ -72,3 +72,32 @@ The full clean CSV (~100 MB) exceeds GitHub's file size limit. It can be reprodu
 
 ## Next Steps
 This project will be extended with the YouTube Data API and automation: collecting channel data directly from YouTube and cleaning it automatically with the same logic.
+## YouTube Data API and OAuth 2.0 (youtube_api.ipynb)
+
+The same cleaning logic, now with data collected directly from YouTube. Tested on a small test channel and checked against YouTube Studio.
+
+**Public data (YouTube Data API v3, API key)**
+- Channel data, then the full list of channel videos through the uploads playlist
+- Pagination with nextPageToken, so channels with more than 50 videos are fully collected
+- Statistics for up to 50 videos in one request
+- Table with video ID, title, publish date, views, likes, comments, duration in seconds and minutes
+
+**Cleaning and checks**
+- Hidden likes or disabled comments: the API does not send the field, the code keeps the cell empty (NaN) instead of failing
+- Text to numbers with pd.to_numeric, dates with UTC, duration from ISO 8601 (PT41S) to seconds
+- Checks: duplicates, video ID length, missing values, negative values
+- Total views from the API matched the channel total in YouTube Studio
+
+**Reliability**
+- Response code check before using data, try/except for failed requests, request timeout
+- Quota planning: one list request costs 1 unit, a full collection for a 300-video channel costs about 13 of 10,000 daily units
+
+**Private data (YouTube Analytics API, OAuth 2.0)**
+- Access granted by the channel owner, no password shared
+- Read-only scopes: the code cannot change or delete anything on the channel
+- Daily views, watch time and average view duration, matched with YouTube Studio
+
+**Security**
+- API key and OAuth client are stored in Colab Secrets, not in the notebook
+
+**Next steps:** automation on a schedule, Google Sheets, Looker Studio, Telegram and email integration.
